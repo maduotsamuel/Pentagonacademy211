@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pentagon Academy | Excellence in Education</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;700&family=Montserrat:wght@300;400;600;700&display=swap');
+
+        :root {
+            --primary: #332f81; /* Dark blue */
+            --secondary: #d4af37; /* Metallic Gold */
+            --accent: #f8f9fa;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        h1, h2, h3, .academy-font {
+            font-family: 'Crimson Pro', serif;
+        }
+
+        .bg-dark-green { background-color: var(--primary); }
+        .text-dark-green { color: var(--primary); }
+        .bg-gold { background-color: var(--secondary); }
+        .text-gold { color: var(--secondary); }
+        .border-gold { border-color: var(--secondary); }
+
+        .hero-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url('img/reading.png');
+            background-size: cover;
+            background-position: center;
+            height: 85vh;
+        }
+
+        .nav-link {
+            position: relative;
+            padding-bottom: 2px;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--secondary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+
+        .page-transition {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .gallery-card {
+            overflow: hidden;
+            position: relative;
+        }
+
+        .gallery-card img {
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-card:hover img {
+            transform: scale(1.08);
+        }
+
+        #whatsapp-widget {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    font-family: Arial, sans-serif;
+}
+
+#whatsapp-button {
+    background-color: #25d366;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+#whatsapp-button img {
+    width: 35px;
+}
+
+#whatsapp-popup {
+    position: absolute;
+    bottom: 80px;
+    right: 0;
+    width: 250px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.hidden { display: none; }
+
+.popup-header { background: #075e54; color: white; padding: 10px; display: flex; justify-content: space-between; }
+.popup-body { padding: 15px; text-align: center; }
+.send-btn { 
+    display: inline-block; 
+    background: #25d366; 
+    color: white; 
+    padding: 8px 15px; 
+    text-decoration: none; 
+    border-radius: 20px;
+    margin-top: 10px;
+}
+#close-popup { cursor: pointer; }
+    </style>
+</head>
+<body class="bg-white text-gray-900 overflow-x-hidden">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-white shadow-lg border-b border-gray-100">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="showPage('home')">
+                <img src="img/logo.png.png" alt="pentagon Academy Logo" style="width: 50px;height: 50px;" onerror="this.src='https://via.placeholder.com/50?text=SM'">
+                <div>
+                    <span class="block text-xl font-bold text-dark-green leading-none uppercase">Pentagon Academy</span>
+                    <span class="text-xs font-semibold text-gold tracking-[0.2em] uppercase">School</span>
+                </div>
+            </div>
+
+            <!-- Desktop Menu -->
+            <div class="hidden lg:flex space-x-8 font-semibold text-gray-700 uppercase text-sm tracking-wider">
+                <a href="#" onclick="showPage('home')" class="nav-link hover:text-dark-green transition">Home</a>
+                <a href="#" onclick="showPage('about')" class="nav-link hover:text-dark-green transition">About</a>
+                <a href="#" onclick="showPage('programs')" class="nav-link hover:text-dark-green transition">Programs</a>
+                <a href="#" onclick="showPage('admissions')" class="nav-link hover:text-dark-green transition">Admissions</a>
+                <a href="#" onclick="showPage('gallery')" class="nav-link hover:text-dark-green transition">Gallery</a>
+                <a href="#" onclick="showPage('contact')" class="nav-link hover:text-dark-green transition">Contact</a>
+            </div>
+
+            <!-- Mobile Toggle -->
+            <button class="lg:hidden text-dark-green p-2" onclick="toggleMenu()" aria-label="Toggle Menu">
+                <i class="fas fa-bars-staggered text-2xl" id="menuIcon"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Navigation Overlay -->
+    <div id="sidebar" class="fixed inset-0 bg-dark-green z-40 mobile-menu flex flex-col items-center justify-center space-y-8 text-white">
+        <button class="absolute top-6 right-6 text-3xl" onclick="toggleMenu()">&times;</button>
+        <a href="#" onclick="showPage('home'); toggleMenu()" class="text-2xl font-bold uppercase">Home</a>
+        <a href="#" onclick="showPage('about'); toggleMenu()" class="text-2xl font-bold uppercase">About</a>
+        <a href="#" onclick="showPage('programs'); toggleMenu()" class="text-2xl font-bold uppercase">Programs</a>
+        <a href="#" onclick="showPage('admissions'); toggleMenu()" class="text-2xl font-bold uppercase">Admissions</a>
+        <a href="#" onclick="showPage('gallery'); toggleMenu()" class="text-2xl font-bold uppercase">Gallery</a>
+        <a href="#" onclick="showPage('contact'); toggleMenu()" class="text-2xl font-bold uppercase">Contact</a>
+    </div>
+
+    <!-- Main Content Area -->
+    <main class="pt-16">
+
+        <!-- HOME PAGE -->
+        <section id="home" class="page-content page-transition">
+            <div class="hero-section flex items-center justify-center text-center px-4">
+                <div class="max-w-4xl">
+                    <h1 class="text-5xl md:text-8xl text-white font-bold mb-4 drop-shadow-lg academy-font">Phd is the limit.</h1>
+                    <p class="text-xl md:text-2xl text-gold mb-10 font-light tracking-wide italic">Nurturing excellence and relevancy through quality Education for national and global development.</p>
+                    <div class="flex flex-col sm:flex-row justify-center gap-4">
+                        <button onclick="showPage('admissions')" class="bg-gold hover:bg-yellow-600 text-dark-green px-10 py-4 rounded shadow-xl font-bold transition-all uppercase tracking-widest">Apply Today</button>
+                        <button onclick="showPage('about')" class="bg-white hover:bg-yellow-600 hover:text-dark-green text-dark-green px-10 py-4 rounded font-bold transition-all uppercase tracking-widest">Our Vision</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Intro Info Cards -->
+            <div class="container mx-auto px-4 py-20">
+                  <div class="grid md:grid-cols-3 gap-0 bg-white shadow-2xl overflow-hidden rounded-sm">
+                    <!-- Academic Depth -->
+                    <div class="p-8 md:p-12 border-b md:border-b-0 md:border-r border-slate-100 group hover:bg-navy transition-all duration-500 text-center md:text-left">
+                        <div class="mb-6 text-gold group-hover:scale-110 transition-transform duration-500">
+                            <i class="fas fa-book-open text-3xl md:text-4xl"></i>
+                        </div>
+                        <h3 class="text-navy group-hover:text-gold text-lg md:text-xl mb-3 transition-colors">Academic Depth</h3>
+                        <p class="text-slate-500 group-hover:text-slate-300 text-xs md:text-sm leading-relaxed transition-colors">From Nursery to National College, we provide a continuous path of excellence for future leaders.</p>
+                    </div>
+                    <!-- Inclusive Vision -->
+                    <div class="p-8 md:p-12 border-b md:border-b-0 md:border-r border-slate-100 group hover:bg-navy transition-all duration-500 text-center md:text-left">
+                        <div class="mb-6 text-gold group-hover:scale-110 transition-transform duration-500">
+                            <i class="fas fa-hand-holding-heart text-3xl md:text-4xl"></i>
+                        </div>
+                        <h3 class="text-navy group-hover:text-gold text-lg md:text-xl mb-3 transition-colors">Inclusive Vision</h3>
+                        <p class="text-slate-500 group-hover:text-slate-300 text-xs md:text-sm leading-relaxed transition-colors">Support for orphans and needy learners, offering 30% fee coverage across all levels of our institution.</p>
+                    </div>
+                    <!-- God Fearing -->
+                    <div class="p-8 md:p-12 group hover:bg-navy transition-all duration-500 text-center md:text-left">
+                        <div class="mb-6 text-gold group-hover:scale-110 transition-transform duration-500">
+                            <i class="fas fa-cross text-3xl md:text-4xl"></i>
+                        </div>
+                        <h3 class="text-navy group-hover:text-gold text-lg md:text-xl mb-3 transition-colors">God-Fearing</h3>
+                        <p class="text-slate-500 group-hover:text-slate-300 text-xs md:text-sm leading-relaxed transition-colors">A garden of hope focused on faith, research, and community outreach to make a difference in Africa.</p>
+                    </div>
+                </div>
+            </div>
+
+               <div class="container mx-auto px-4">
+                <div class="max-w-4xl mx-auto text-center mb-16">
+                    <h2 class="text-5xl font-bold text-dark-green mb-4 academy-font">Our Story & Mission</h2>
+                    <div class="w-24 h-1 bg-gold mx-auto"></div>
+                </div>
+                <div class="flex flex-col lg:flex-row gap-16 items-center">
+                    <div class="lg:w-1/2 order-2 lg:order-1">
+                        <h3 class="text-2xl font-bold text-dark-green mb-4">A Tradition of Excellence</h3>
+                        <p class="text-gray-700 leading-loose mb-6">establish in 2023 in juba to enhanced access to education for all citizens, it’s an inclusive school nursery, primary, secondary, computer training centers and national college offering courses at affordable fees, aiming at education for better economic, social and good governance envisioned in vision 2040.</p>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-accent p-6 rounded-lg text-center border-t-4 border-dark-green shadow-sm">
+                                <span class="block text-3xl font-bold text-dark-green">100%</span>
+                                <span class="text-xs uppercase font-bold text-gray-500">Graduation Rate</span>
+                            </div>
+                            <div class="bg-accent p-6 rounded-lg text-center border-t-4 border-gold shadow-sm">
+                                <span class="block text-3xl font-bold text-dark-green">1000+</span>
+                                <span class="text-xs uppercase font-bold text-gray-500">Students</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lg:w-1/2 order-1 lg:order-2">
+                        <img src="img/events-item-2.jpg" alt="Academy Campus History" class="rounded-2xl shadow-2xl border-4 border-white">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Primary Showcase -->
+            <div class="container mx-auto px-4 py-10">
+                <div class="flex flex-col lg:flex-row gap-12 items-center">
+                    <div class="lg:w-1/2">
+                        <img src="img/1767540958108.jpg" alt="Student Life at pentagon" class="rounded-xl shadow-2xl border-b-8 border-gold">
+                    </div>
+                    <div class="lg:w-1/2">
+                        <h2 class="text-4xl font-bold text-dark-green mb-6 academy-font">The Pentagon Difference</h2>
+                        <p class="text-gray-600 text-lg mb-6 leading-relaxed">At Pentagon Academy, we don't just teach students how to think; we teach them how to live. Our environment is designed to foster curiosity and character in equal measure.</p>
+                        <ul class="space-y-4">
+                            <li class="flex items-center space-x-3 text-dark-green font-semibold">
+                                <i class="fas fa-check-circle text-gold"></i>
+                                <span>Small Class Sizes (12:1 Ratio)</span>
+                            </li>
+                            <li class="flex items-center space-x-3 text-dark-green font-semibold">
+                                <i class="fas fa-check-circle text-gold"></i>
+                                <span>Award-Winning Programs</span>
+                            </li>
+                            <li class="flex items-center space-x-3 text-dark-green font-semibold">
+                                <i class="fas fa-check-circle text-gold"></i>
+                                <span>Comprehensive Fine Arts Integration</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT PAGE -->
+        <section id="about" class="page-content hidden page-transition py-20">
+            <div class="container mx-auto px-4">
+                <div class="max-w-4xl mx-auto text-center mb-16">
+                    <h2 class="text-5xl font-bold text-dark-green mb-4 academy-font">Our Story & Mission</h2>
+                    <div class="w-24 h-1 bg-gold mx-auto"></div>
+                </div>
+                <div class="flex flex-col lg:flex-row gap-16 items-center">
+                    <div class="lg:w-1/2 order-2 lg:order-1">
+                        <h3 class="text-2xl font-bold text-dark-green mb-4">Our Mission</h3>
+                        <p class="text-gray-700 leading-loose mb-6">Establish in 2023 in juba to enhanced access to education for all citizens, it’s an inclusive school nursery, primary, secondary, computer training centers and national college offering courses at affordable fees, aiming at education for better economic, social and good governance envisioned in vision 2040.</p>
+
+                        <h3 class="text-2xl font-bold text-dark-green mb-4">Our Vision</h3>
+                        <p class="text-gray-700 leading-loose mb-6">To be a global beacon of academic brilliance where five pillars of excellence—Intellect, Integrity, Innovation, Leadership, and Resilience converge to illuminate the path for the leaders of tomorrow.</p>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-accent p-6 rounded-lg text-center border-t-4 border-dark-green shadow-sm">
+                                <span class="block text-3xl font-bold text-dark-green">100%</span>
+                                <span class="text-xs uppercase font-bold text-gray-500">Graduation Rate</span>
+                            </div>
+                            <div class="bg-accent p-6 rounded-lg text-center border-t-4 border-gold shadow-sm">
+                                <span class="block text-3xl font-bold text-dark-green">1000+</span>
+                                <span class="text-xs uppercase font-bold text-gray-500">Students</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lg:w-1/2 order-1 lg:order-2">
+                        <img src="img/events-item-2.jpg" alt="Academy Campus History" class="rounded-2xl shadow-2xl border-4 border-white">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROGRAMS PAGE -->
+        <section id="programs" class="page-content hidden page-transition py-20 bg-gray-50">
+            <div class="container mx-auto px-4 text-center">
+                <h2 class="text-5xl font-bold text-dark-green mb-16 academy-font">Academic Pathways</h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Primary -->
+                    <div class="bg-white rounded-2xl shadow-xl overflow-hidden group">
+                        <div class="h-48 overflow-hidden">
+                            <img src="img/1767540964707.jpg" alt="Primary School" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                        </div>
+                        <div class="p-8 text-left">
+                            <h3 class="text-2xl font-bold text-dark-green mb-4">Lower School</h3>
+                            <p class="text-gray-600 mb-6 italic">Building foundations through wonder and discovery in a nurturing environment.</p>
+                            <button onclick="showPage('admissions')" class="text-gold font-bold uppercase tracking-widest hover:text-dark-green transition">Explore &rarr;</button>
+                        </div>
+                    </div>
+                    <!-- Secondary -->
+                    <div class="bg-white rounded-2xl shadow-xl overflow-hidden group border-b-8 border-dark-green">
+                        <div class="h-48 overflow-hidden">
+                            <img src="img/1767541252731.jpg" alt="Middle School" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                        </div>
+                        <div class="p-8 text-left">
+                            <h3 class="text-2xl font-bold text-dark-green mb-4">Middle School</h3>
+                            <p class="text-gray-600 mb-6 italic">Developing critical thinking, character, and personal responsibility.</p>
+                            <button onclick="showPage('admissions')"  class="text-gold font-bold uppercase tracking-widest hover:text-dark-green transition">Explore &rarr;</button>
+                        </div>
+                    </div>
+                    <!-- Higher -->
+                    <div class="bg-white rounded-2xl shadow-xl overflow-hidden group">
+                        <div class="h-48 overflow-hidden">
+                            <img src="img/events-item-2.jpg" alt="High School" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                        </div>
+                        <div class="p-8 text-left">
+                            <h3 class="text-2xl font-bold text-dark-green mb-4">Upper School</h3>
+                            <p class="text-gray-600 mb-6 italic">Advanced placement and college preparatory leadership for the future.</p>
+                            <button  onclick="showPage('admissions')"  class="text-gold font-bold uppercase tracking-widest hover:text-dark-green transition">Explore &rarr;</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ADMISSIONS PAGE -->
+        <section id="admissions" class="page-content hidden page-transition py-20">
+            <div class="container mx-auto px-4 max-w-5xl">
+                <div class="flex flex-col lg:flex-row gap-16">
+                    <div class="lg:w-1/3">
+                        <h2 class="text-4xl font-bold text-dark-green mb-6 academy-font">Join Our Legacy</h2>
+                        <p class="text-gray-600 mb-10">We seek students who are eager to learn, lead, and serve. Our process is designed to discover your child's unique potential.</p>
+                        <div class="space-y-6">
+                            <div class="flex items-center space-x-4 p-4 bg-accent rounded-lg">
+                                <span class="bg-dark-green text-white w-8 h-8 rounded-full flex items-center justify-center shrink-0 font-bold">1</span>
+                                <span class="font-bold">Online Inquiry</span>
+                            </div>
+                            <div class="flex items-center space-x-4 p-4 bg-accent rounded-lg">
+                                <span class="bg-dark-green text-white w-8 h-8 rounded-full flex items-center justify-center shrink-0 font-bold">2</span>
+                                <span class="font-bold">Campus Tour</span>
+                            </div>
+                            <div class="flex items-center space-x-4 p-4 bg-accent rounded-lg">
+                                <span class="bg-dark-green text-white w-8 h-8 rounded-full flex items-center justify-center shrink-0 font-bold">3</span>
+                                <span class="font-bold">Family Interview</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lg:w-2/3">
+                        <div class="bg-white p-10 rounded-2xl shadow-2xl border border-gray-100">
+                            <h3 class="text-2xl font-bold text-dark-green mb-8">Admissions Inquiry</h3>
+                            <form id="admissionsForm" action="https://api.web3forms.com/submit" method="POST" class="space-y-6">
+                                <div class="grid md:grid-cols-2 gap-6">
+                                     <input type="hidden" name="access_key" value="f4caca63-9e49-4f7d-8b4e-bca341cab8d8">
+                                    <input type="text" name="fName" id="parentFirstName" placeholder="Parent First Name" required class="w-full p-4 border border-gray-200 rounded-lg focus:ring-2 focus:ring-gold outline-none">
+                                    <input type="text" name="lName" id="parentLastName" placeholder="Parent Last Name" required class="w-full p-4 border border-gray-200 rounded-lg focus:ring-2 focus:ring-gold outline-none">
+                                </div>
+                                <input type="email" name="email" placeholder="Email Address" required class="w-full p-4 border border-gray-200 rounded-lg focus:ring-2 focus:ring-gold outline-none">
+                                <select name="gradeLevel" required class="w-full p-4 border border-gray-200 rounded-lg focus:ring-2 focus:ring-gold outline-none">
+                                    <option value="" disabled selected>Select Grade Level</option>
+                                    <option>Lower School</option>
+                                    <option>Middle School</option>
+                                    <option>Upper School</option>
+                                </select>
+                                <button type="send" class="w-full bg-dark-green text-white font-bold py-4 rounded-lg uppercase tracking-[0.2em] shadow-lg hover:bg-emerald-900 transition">Submit Inquiry</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- GALLERY PAGE -->
+        <section id="gallery" class="page-content hidden page-transition py-20 bg-gray-50">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h2 class="text-5xl font-bold text-dark-green mb-4 academy-font">Campus & Student Life</h2>
+                    <p class="text-gray-500 max-w-xl mx-auto italic">Capturing the moments of growth and joy at pentagon Academy.</p>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="gallery-card h-80 rounded-2xl shadow-lg border-4 border-white group cursor-zoom-in">
+                        <img src="img/1767540958108.jpg" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-dark-green bg-opacity-40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
+                            <span class="text-white font-bold uppercase tracking-widest">View Banner</span>
+                        </div>
+                    </div>
+                    <div class="gallery-card h-80 rounded-2xl shadow-lg border-4 border-white group cursor-zoom-in">
+                        <img src="img/1767540962917.jpg" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-dark-green bg-opacity-40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
+                            <span class="text-white font-bold uppercase tracking-widest">Student Life</span>
+                        </div>
+                    </div>
+                    <div class="gallery-card h-80 rounded-2xl shadow-lg border-4 border-white group cursor-zoom-in">
+                        <img src="img/8'.jpg" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-dark-green bg-opacity-40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
+                            <span class="text-white font-bold uppercase tracking-widest">Campus View</span>
+                        </div>
+                    </div>
+                    <div class="gallery-card h-80 rounded-2xl shadow-lg border-4 border-white group cursor-zoom-in">
+                        <img src="img/1767541252731.jpg" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-dark-green bg-opacity-40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
+                            <span class="text-white font-bold uppercase tracking-widest">Lower School</span>
+                        </div>
+                    </div>
+                    <div class="gallery-card h-80 rounded-2xl shadow-lg border-4 border-white group cursor-zoom-in">
+                        <img src="img/1767540972449.jpg" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-dark-green bg-opacity-40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
+                            <span class="text-white font-bold uppercase tracking-widest">Academic Focus</span>
+                        </div>
+                    </div>
+                    <div class="gallery-card h-80 rounded-2xl shadow-lg border-4 border-white group cursor-zoom-in">
+                        <img src="img/events.jpg" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-dark-green bg-opacity-40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
+                            <span class="text-white font-bold uppercase tracking-widest">Academy Events</span>
+                        </div>
+                    </div>
+
+                     <div class="gallery-card h-80 rounded-2xl shadow-lg border-4 border-white group cursor-zoom-in">
+                        <img src="img/1.jpeg" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-dark-green bg-opacity-40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
+                            <span class="text-white font-bold uppercase tracking-widest">Academy Events</span>
+                        </div>
+                    </div>
+
+                     <div class="gallery-card h-80 rounded-2xl shadow-lg border-4 border-white group cursor-zoom-in">
+                        <img src="img/2.jpeg" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-dark-green bg-opacity-40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
+                            <span class="text-white font-bold uppercase tracking-widest">Academy Events</span>
+                        </div>
+                    </div>
+
+                     <div class="gallery-card h-80 rounded-2xl shadow-lg border-4 border-white group cursor-zoom-in">
+                        <img src="img/3.jpeg" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-dark-green bg-opacity-40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
+                            <span class="text-white font-bold uppercase tracking-widest">Academy Events</span>
+                        </div>
+                    </div>
+
+                     <div class="gallery-card h-80 rounded-2xl shadow-lg border-4 border-white group cursor-zoom-in">
+                        <img src="img/events.jpg" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-dark-green bg-opacity-40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
+                            <span class="text-white font-bold uppercase tracking-widest">Academy Events</span>
+                        </div>
+                    </div>
+
+                     <div class="gallery-card h-80 rounded-2xl shadow-lg border-4 border-white group cursor-zoom-in">
+                        <img src="img/4.jpeg" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-dark-green bg-opacity-40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
+                            <span class="text-white font-bold uppercase tracking-widest">Academy Events</span>
+                        </div>
+                    </div>
+
+                     <div class="gallery-card h-80 rounded-2xl shadow-lg border-4 border-white group cursor-zoom-in">
+                        <img src="img/6.jpg" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-dark-green bg-opacity-40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
+                            <span class="text-white font-bold uppercase tracking-widest">Academy Events</span>
+                        </div>
+                    </div>
+
+                     <div class="gallery-card h-80 rounded-2xl shadow-lg border-4 border-white group cursor-zoom-in">
+                        <img src="img/7.jpg" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-dark-green bg-opacity-40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
+                            <span class="text-white font-bold uppercase tracking-widest">Academy Events</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT PAGE -->
+        <section id="contact" class="page-content hidden page-transition py-20">
+            <div class="container mx-auto px-4">
+                <div class="grid lg:grid-cols-2 gap-20">
+                    <div>
+                        <h2 class="text-4xl font-bold text-dark-green mb-6 academy-font">Get In Touch</h2>
+                        <p class="text-gray-600 mb-10 leading-relaxed">We invite you to experience our campus atmosphere. Reach out to our team to schedule a personal tour or ask questions about our programs.</p>
+                        
+                        <div class="space-y-8">
+                            <div class="flex items-start space-x-6">
+                                <div class="bg-dark-green text-gold p-4 rounded-xl shadow-lg">
+                                    <i class="fas fa-location-dot text-2xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-dark-green">Campus Address</h4>
+                                    <p class="text-gray-500">Munuki-Hai Kuwait, Juba</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-6">
+                                <div class="bg-gold text-dark-green p-4 rounded-xl shadow-lg">
+                                    <i class="fas fa-phone text-2xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-dark-green">Registrar & Info</h4>
+                                    <p class="text-gray-500">+211984490060/+211924739007 | pentagonacademy123@gmail.com</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-accent rounded-3xl p-8 border border-gray-100">
+                        <h3 class="text-xl font-bold text-dark-green mb-6">General Message</h3>
+                        <form id="contactForm" action="https://api.web3forms.com/submit" method="POST" class="space-y-4">
+                            <input type="hidden" name="access_key" value="f4caca63-9e49-4f7d-8b4e-bca341cab8d8">
+                           <label for="Name"></label> <input type="text" name="name" placeholder="Full Name" required class="w-full p-4 rounded-xl bg-white border border-gray-200 outline-none">
+                            <label for="email"></label> <input type="email" name="email" placeholder="Email Address" required class="w-full p-4 rounded-xl bg-white border border-gray-200 outline-none">
+                            <label for="message"></label><textarea name="message" placeholder="How can we help you?" required rows="5" class="w-full p-4 rounded-xl bg-white border border-gray-200 outline-none"></textarea>
+                            <button type="submit" class="w-full bg-gold text-dark-green font-bold py-4 rounded-xl shadow-md hover:bg-yellow-500 transition uppercase tracking-widest">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div id="whatsapp-widget">
+    <div id="whatsapp-popup" class="hidden">
+        <div class="popup-header">
+            <strong>Chat with us!</strong>
+            <span id="close-popup">&times;</span>
+        </div>
+        <div class="popup-body">
+            <p>Hi there! How can we help you today?</p>
+            <a href="https://wa.me/0920001626" target="_blank" class="send-btn">Start Chat</a>
+        </div>
+    </div>
+    
+    <div id="whatsapp-button">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+    </div>
+</div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark-green text-white pt-20 pb-10">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+                <div class="col-span-1 md:col-span-1">
+                    <div class="flex items-center space-x-3 mb-6">
+                        <img src="img/logo.png.png" alt="pentagon Footer" class="bg-white h-10 w-auto">
+                        <span class="text-xl font-bold tracking-tight uppercase">pentagon</span>
+                    </div>
+                    <p class="text-emerald-100 text-sm leading-relaxed italic opacity-80">"Motto" — Phd is the limit.</p>
+                </div>
+                <div>
+                    <h5 class="font-bold mb-6 text-gold uppercase tracking-widest text-sm">Navigation</h5>
+                    <ul class="space-y-3 text-sm text-emerald-100 opacity-80">
+                        <li><a href="#" onclick="showPage('about')" class="hover:text-gold transition">Our Mission</a></li>
+                        <li><a href="#" onclick="showPage('programs')" class="hover:text-gold transition">Academic Pathways</a></li>
+                        <li><a href="#" onclick="showPage('gallery')" class="hover:text-gold transition">Gallery</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="font-bold mb-6 text-gold uppercase tracking-widest text-sm">Resources</h5>
+                    <ul class="space-y-3 text-sm text-emerald-100 opacity-80">
+                        <li><a href="#" onclick="showPage('admissions')" class="hover:text-gold transition">Tuition & Support</a></li>
+                        <li><a href="#" onclick="showPage('admissions')" class="hover:text-gold transition">Apply Now</a></li>
+                        <li><a href="#" onclick="showPage('contact')" class="hover:text-gold transition">Visit Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                 <h4 class="font-bold text-gold">Reach Us</h4>
+                <p class="text-gray-500">+211984490060/+211924739007 | pentagonacademy123@gmail.com</p>
+                </div>
+                <div>
+                    <h5 class="font-bold mb-6 text-gold uppercase tracking-widest text-sm">Connect</h5>
+                    <div class="flex space-x-4">
+                        <a href="https://www.facebook.com/profile.php?id=61571268036826" class="w-10 h-10 rounded-full border border-emerald-800 flex items-center justify-center hover:bg-yellow-500 hover:text-blue transition"><i class="fab fa-facebook-f"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center pt-10 border-t border-emerald-900 text-emerald-300 text-xs">
+                <p>&copy; 2026 pentagon Academy. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function showPage(pageId) {
+            const pages = document.querySelectorAll('.page-content');
+            pages.forEach(page => page.classList.add('hidden'));
+
+            const targetPage = document.getElementById(pageId);
+            targetPage.classList.remove('hidden');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleMenu() {
+            const sidebar = document.getElementById('sidebar');
+            const menuIcon = document.getElementById('menuIcon');
+            
+            sidebar.classList.toggle('active');
+            
+            if(sidebar.classList.contains('active')) {
+                menuIcon.classList.remove('fa-bars-staggered');
+                menuIcon.classList.add('fa-times');
+                document.body.style.overflow = 'hidden';
+            } else {
+                menuIcon.classList.remove('fa-times');
+                menuIcon.classList.add('fa-bars-staggered');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        /**
+         * Connects the general message contact form to email using mailto
+         */
+        function handleContactSubmit(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('contactName').value;
+            const email = document.getElementById('contactEmail').value;
+            const message = document.getElementById('contactMessage').value;
+            const recipient = "info@stmary.edu";
+            
+            const subject = encodeURIComponent("General Inquiry from " + name);
+            const body = encodeURIComponent("Name: " + name + "\nEmail: " + email + "\n\nMessage:\n" + message);
+            
+            window.location.href = `mailto:${recipient}?subject=${subject}&body=${body}`;
+        }
+        <!-- WhatsApp Widget Script -->
+const btn = document.getElementById('whatsapp-button');
+const popup = document.getElementById('whatsapp-popup');
+const close = document.getElementById('close-popup');
+
+btn.addEventListener('click', () => {
+    popup.classList.toggle('hidden');
+});
+
+close.addEventListener('click', (e) => {
+    e.stopPropagation(); // Prevents the button click from firing
+    popup.classList.add('hidden');
+});
+        /**
+         * Connects the admissions inquiry form to email using mailto
+         */
+        function handleInquirySubmit(event) {
+            event.preventDefault();
+            
+            const fName = document.getElementById('parentFirstName').value;
+            const lName = document.getElementById('parentLastName').value;
+            const email = document.getElementById('parentEmail').value;
+            const grade = document.getElementById('gradeLevel').value;
+            const recipient = "boldit2015@gmail.com";
+            
+            const subject = encodeURIComponent("Admission Inquiry: " + fName + " " + lName);
+            const body = encodeURIComponent("Parent: " + fName + " " + lName + "\nEmail: " + email + "\nGrade Level Interest: " + grade);
+            
+            window.location.href = `mailto:${recipient}?subject=${subject}&body=${body}`;
+        }
+    </script>
+</body>
+</html>

@@ -87,58 +87,7 @@
         .gallery-card:hover img {
             transform: scale(1.08);
         }
-
-        #whatsapp-widget {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 1000;
-    font-family: Arial, sans-serif;
-}
-
-#whatsapp-button {
-    background-color: #25d366;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-}
-
-#whatsapp-button img {
-    width: 35px;
-}
-
-#whatsapp-popup {
-    position: absolute;
-    bottom: 80px;
-    right: 0;
-    width: 250px;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    overflow: hidden;
-    transition: all 0.3s ease;
-}
-
-.hidden { display: none; }
-
-.popup-header { background: #075e54; color: white; padding: 10px; display: flex; justify-content: space-between; }
-.popup-body { padding: 15px; text-align: center; }
-.send-btn { 
-    display: inline-block; 
-    background: #25d366; 
-    color: white; 
-    padding: 8px 15px; 
-    text-decoration: none; 
-    border-radius: 20px;
-    margin-top: 10px;
-}
-#close-popup { cursor: pointer; }
-    </style>
+  </style>
 </head>
 <body class="bg-white text-gray-900 overflow-x-hidden">
 
@@ -647,19 +596,6 @@
             
             window.location.href = `mailto:${recipient}?subject=${subject}&body=${body}`;
         }
-        <!-- WhatsApp Widget Script -->
-const btn = document.getElementById('whatsapp-button');
-const popup = document.getElementById('whatsapp-popup');
-const close = document.getElementById('close-popup');
-
-btn.addEventListener('click', () => {
-    popup.classList.toggle('hidden');
-});
-
-close.addEventListener('click', (e) => {
-    e.stopPropagation(); // Prevents the button click from firing
-    popup.classList.add('hidden');
-});
         /**
          * Connects the admissions inquiry form to email using mailto
          */
@@ -680,5 +616,6 @@ close.addEventListener('click', (e) => {
     </script>
 </body>
 </html>
+
 
 
